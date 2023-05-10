@@ -1,40 +1,49 @@
 package com.example.financeApp.controller;
 
+import com.example.financeApp.dto.GoalDTO;
+import com.example.financeApp.entity.Goal;
 import com.example.financeApp.service.GoalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/goal")
+import java.util.List;
+
+@RestController
+@RequestMapping("/goals")
 @AllArgsConstructor
 @Tag(name = "goals", description = "Finance goals controller")
 public class GoalController {
 
     private final GoalService goalService;
-
-    @GetMapping("/{goalId}")
-    public Double getBalance(@PathVariable Long goalId) {
-        return goalService.getBalance();
+    @GetMapping
+    public ResponseEntity<List<Goal>> readAll() {
+        return new ResponseEntity<>(goalService.readAll(), HttpStatus.OK);
+    }
+    @PostMapping
+    public ResponseEntity<Goal> create(@RequestBody GoalDTO dto) {
+        return new ResponseEntity<>(goalService.create(dto), HttpStatus.OK);
     }
 
-    @PostMapping("add/{goalId}/{amount}")
-    public Double addMoney(@PathVariable Long goalId, @PathVariable Double amount) {
-        return goalService.addMoney(goalId, amount);
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Goal> readById(@PathVariable Long id) {
+        return new ResponseEntity<>(goalService.readById(id), HttpStatus.OK);
+    }
+    @PutMapping
+    public ResponseEntity<Goal> update(@RequestBody Goal goal) {
+        return new ResponseEntity<>(goalService.update(goal), HttpStatus.OK);
     }
 
-    @PostMapping("remove/{goalId}/{amount}")
-    public Double removeMoney(@PathVariable Long goalId, @PathVariable Double amount) {
-        return goalService.removeMoney(goalId, amount);
-
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
+        goalService.delete(id);
+        return HttpStatus.OK;
     }
 
-    @GetMapping("calculate/{goalId}")
-    public Double calculateRegularDeposit(@PathVariable Long goalId) {
-        return goalService.calculateRegularDeposit(goalId);
+    @GetMapping("calculate/{id}")
+    public ResponseEntity<Double> calculateEverydayDeposit(@PathVariable Long id) {
+        return new ResponseEntity<>(goalService.calculateRegularDeposit(id), HttpStatus.OK);
     }
 }

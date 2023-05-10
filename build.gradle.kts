@@ -15,12 +15,17 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	runtimeOnly("org.postgresql:postgresql")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 	// Swagger
-	developmentOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+	developmentOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
 	implementation("io.swagger.core.v3:swagger-annotations:2.2.8")
 
 }
