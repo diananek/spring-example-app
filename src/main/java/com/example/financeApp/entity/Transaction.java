@@ -21,8 +21,8 @@ public class Transaction {
     private Double amount;
     private Boolean isIncome;
     private Date date;
-    @ManyToOne
-    @JoinColumn(name="category_id")
-    private Category category;
     private String comment;
+    @ManyToOne
+    @JoinColumn(name="category_id", referencedColumnName="id")
+    private Category category;
 }
