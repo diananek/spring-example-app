@@ -19,8 +19,9 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
+
     @PostMapping
-    public ResponseEntity<Transaction> create (@RequestBody TransactionDTO dto) {
+    public ResponseEntity<Transaction> create(@RequestBody TransactionDTO dto) {
         return new ResponseEntity<>(transactionService.create(dto), HttpStatus.OK);
     }
 
@@ -28,8 +29,9 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> readAll() {
         return new ResponseEntity<>(transactionService.readAll(), HttpStatus.OK);
     }
+
     @GetMapping("/category/{id}")
-    public  ResponseEntity<List<Transaction>> readByCategoryId(@PathVariable Long id) {
+    public ResponseEntity<List<Transaction>> readByCategoryId(@PathVariable Long id) {
         return new ResponseEntity<>(transactionService.readByCategoryId(id), HttpStatus.OK);
     }
 
@@ -43,19 +45,4 @@ public class TransactionController {
         transactionService.delete(id);
         return HttpStatus.OK;
     }
-//    @GetMapping
-//    @Operation(summary = "Get all transactions")
-//    public void getTransactions() {
-//    }
-//
-//    @PostMapping
-//    @Operation(summary = "Add transaction")
-//    public void addTransaction(@RequestBody Transaction transaction) {
-//    }
-//
-//    @GetMapping("/{idTransaction}")
-//    @Operation(summary = "Get transaction by id")
-//    public Transaction getTransactionById(@PathVariable Long idTransaction) {
-//        return null;
-//    }
 }

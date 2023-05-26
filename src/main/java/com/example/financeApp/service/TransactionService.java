@@ -16,7 +16,6 @@ public class TransactionService {
 
     public Transaction create(TransactionDTO dto) {
         Transaction transaction = Transaction.builder()
-                .name(dto.getName())
                 .amount(dto.getAmount())
                 .date(dto.getDate())
                 .isIncome(dto.getIsIncome())
