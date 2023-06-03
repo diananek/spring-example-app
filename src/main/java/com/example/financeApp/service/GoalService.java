@@ -1,16 +1,11 @@
 package com.example.financeApp.service;
 
 import com.example.financeApp.dto.GoalDTO;
-import com.example.financeApp.dto.TransactionDTO;
-import com.example.financeApp.entity.Category;
 import com.example.financeApp.entity.Goal;
-import com.example.financeApp.entity.Transaction;
 import com.example.financeApp.repository.GoalRepository;
-import com.example.financeApp.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -43,10 +38,23 @@ public class GoalService {
         return goalRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Goal not found - " + id));
     }
-    public Double calculateRegularDeposit(Long id) {
+    public Double calculateEverydayDeposit(Long id) {
         Goal goal = goalRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Goal not found - " + id));
-        Integer days = Math.toIntExact((goal.getEndDate().getTime() - goal.getStartDate().getTime()) / 86400000);
-        return goal.getAmount()/ days;
+        Double days = Math.floor((goal.getEndDate().getTime() - goal.getStartDate().getTime()) / (864*Math.pow(10,5)));
+        return Math.ceil(goal.getAmount()/ days);
+    }
+
+    public Double calculateWeeklyDeposit(Long id) {
+        Goal goal = goalRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Goal not found - " + id));
+        Double weeks = Math.floor((goal.getEndDate().getTime() - goal.getStartDate().getTime()) / (6048*Math.pow(10,5)));
+        return Math.ceil(goal.getAmount()/ weeks);
+    }
+    public Double calculateMonthlyDeposit(Long id) {
+        Goal goal = goalRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Goal not found - " + id));
+        Double months = Math.floor((goal.getEndDate().getTime() - goal.getStartDate().getTime()) / (2628*Math.pow(10,6)));
+        return Math.ceil(goal.getAmount()/ months);
     }
 }

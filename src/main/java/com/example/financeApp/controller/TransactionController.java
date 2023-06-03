@@ -21,25 +21,29 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
+    @Operation(summary = "Creating a transaction")
     public ResponseEntity<Transaction> create(@RequestBody TransactionDTO dto) {
         return new ResponseEntity<>(transactionService.create(dto), HttpStatus.OK);
     }
 
     @GetMapping
+    @Operation(summary = "Returns all transactions")
     public ResponseEntity<List<Transaction>> readAll() {
         return new ResponseEntity<>(transactionService.readAll(), HttpStatus.OK);
     }
-
+    @Operation(summary = "Returns transaction by category id")
     @GetMapping("/category/{id}")
     public ResponseEntity<List<Transaction>> readByCategoryId(@PathVariable Long id) {
         return new ResponseEntity<>(transactionService.readByCategoryId(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Updating transaction by id")
     @PutMapping
     public ResponseEntity<Transaction> update(@RequestBody Transaction transaction) {
         return new ResponseEntity<>(transactionService.update(transaction), HttpStatus.OK);
     }
 
+    @Operation(summary = "Deleting transaction by id")
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable Long id) {
         transactionService.delete(id);
