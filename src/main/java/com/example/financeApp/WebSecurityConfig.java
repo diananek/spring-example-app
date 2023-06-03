@@ -2,11 +2,9 @@ package com.example.financeApp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +18,13 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/transactions", "/categories", "/goals").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/transactions/**", "/categories/**", "/goals/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/transactions/**", "/categories/**", "/goals/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/transactions/**", "/categories/**", "/goals/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/transactions/**", "/categories/**", "/goals/**").hasRole("ADMIN")
                         .requestMatchers("/hello").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
