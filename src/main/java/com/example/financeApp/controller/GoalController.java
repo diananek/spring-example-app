@@ -44,6 +44,16 @@ public class GoalController {
 
     @GetMapping("calculate/{id}")
     public ResponseEntity<Double> calculateEverydayDeposit(@PathVariable Long id) {
-        return new ResponseEntity<>(goalService.calculateRegularDeposit(id), HttpStatus.OK);
+        return new ResponseEntity<>(goalService.calculateEverydayDeposit(id), HttpStatus.OK);
+    }
+    @Operation(summary = "Calculating weekly deposit by goal id")
+    @GetMapping("weekly_calculate/{id}")
+    public ResponseEntity<Double> calculateWeeklyDeposit(@PathVariable Long id) {
+        return new ResponseEntity<>(goalService.calculateWeeklyDeposit(id), HttpStatus.OK);
+    }
+    @Operation(summary = "Calculating monthly deposit by goal id")
+    @GetMapping("monthly_calculate/{id}")
+    public ResponseEntity<Double> calculateMonthlyDeposit(@PathVariable Long id) {
+        return new ResponseEntity<>(goalService.calculateMonthlyDeposit(id), HttpStatus.OK);
     }
 }
